@@ -1,11 +1,7 @@
 import numpy as np
 import pandas as pd
 
-dates = pd.date_range("20130101", periods=6)
-df = pd.DataFrame(np.arange(0,24).reshape(6,4), index=dates, columns=list("ABCD"))
+mealPoints_df = pd.read_csv("mealPoints.csv")
 
-
-print(df)
-
-print(df.sort_values(by="A", ascending=False))
+print(mealPoints_df.head(5))
 

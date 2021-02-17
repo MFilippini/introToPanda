@@ -2,17 +2,20 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import datetime
 
-plt.close("all")
-np.random.seed(123456)
+mealPoints = pd.read_csv("mealPoints.csv",
+                parse_dates=['Transaction Date'])
+mealPoints = mealPoints.sort_values('Current Balance')
 
-ts = pd.Series(np.random.randn(1000), index=pd.date_range("1/1/2000", periods=1000))
-ts = ts.cumsum()
-ts.plot()
+mealPoints['weekday'] = pd.DatetimeIndex(mealPoints['Transaction Date']).dayofweek
+mealPoints['date'] = pd.DatetimeIndex[mealPoints['Transaction Date']].day_name
+mealPoints['transAmmount'] = mealPoints.diff(periods=-1)['Current Balance'] * -1
+mpWeekday = mealPoints.groupby(['weekday'])['transAmmount'].sum()
 
-np.random.seed(123456)
-df = pd.DataFrame(np.random.randn(1000, 4), index=ts.index, columns=list("ABCD"))
-df = df.cumsum()
-plt.figure()
-df.plot()
+print(mpWeekday)
+print(mealPoints.head(10))
+#mealPoints.plot(x='Transaction Date',y='Current Balance')
+mpWeekday.plot.bar(x='weekday',y=1)
 
+# %%
